@@ -9,7 +9,10 @@ public class Usuario {
     private final Set<Item> itensCurtidos;
 
     public Usuario(String nome) {
-        this.nome = nome;
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome do usuário inválido");
+        }
+        this.nome = nome.trim();
         this.itensCurtidos = new HashSet<>();
     }
 
@@ -22,6 +25,8 @@ public class Usuario {
     }
 
     public void curtirItem(Item item) {
-        itensCurtidos.add(item);
-    }
+        if (item == null) {
+            throw new IllegalArgumentException("Item não pode ser nulo");
+        }
+        itensCurtidos.add(item);    }
 }

@@ -22,10 +22,20 @@ public class SistemaRecomendacao {
     }
 
     public void adicionarUsuario(String nome){
-        usuarios.putIfAbsent(nome, new Usuario(nome));
-    }
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome do usuário inválido");
+        }
+
+        if (usuarios.containsKey(nome)) {
+            throw new IllegalArgumentException("Usuário já existe: " + nome);
+        }
+
+        usuarios.put(nome, new Usuario(nome));    }
 
     public void adicionarItem(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Item não pode ser nulo");
+        }
         catalog.adicionarItem(item);
     }
 
@@ -74,7 +84,7 @@ public class SistemaRecomendacao {
 
                 ranking.put(
                         item,
-                        ranking.getOrDefault(item, 0.0) + similaridade
+                        ranking.getOrDefault(item, 0.0) + (similaridade * item.getPeso())
                 );
             }
         }

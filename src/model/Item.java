@@ -11,6 +11,22 @@ public class Item {
     private final double peso;
 
     public Item(String id, String nome, TipoItem tipo, String categoria, double peso) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Id inválido");
+        }
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome inválido");
+        }
+        if (tipo == null) {
+            throw new IllegalArgumentException("Tipo não pode ser nulo");
+        }
+        if (categoria == null || categoria.isBlank()) {
+            throw new IllegalArgumentException("Categoria inválida");
+        }
+        if (peso < 0) {
+            throw new IllegalArgumentException("Peso não pode ser negativo");
+        }
+
         this.id = id;
         this.nome = nome;
         this.tipo = tipo;
