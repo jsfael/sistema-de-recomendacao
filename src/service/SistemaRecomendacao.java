@@ -13,9 +13,11 @@ public class SistemaRecomendacao {
 
     private final SimilaridadeStrategy strategy;
     private final Map<String, Usuario> usuarios;
+    private final ItemCatalog catalog;
 
-    public SistemaRecomendacao(SimilaridadeStrategy strategy){
+    public SistemaRecomendacao(SimilaridadeStrategy strategy, ItemCatalog catalog){
         this.strategy = strategy;
+        this.catalog = catalog;
         usuarios = new HashMap<>();
     }
 
