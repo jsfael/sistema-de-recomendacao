@@ -2,7 +2,8 @@ package service;
 
 import model.Item;
 import model.Usuario;
-import strategy.SimilaridadeStrategy;
+import strategy.filtro.FiltroStrategy;
+import strategy.similaridade.SimilaridadeStrategy;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -11,12 +12,14 @@ import java.util.Map;
 
 public class SistemaRecomendacao {
 
-    private final SimilaridadeStrategy strategy;
+    private final SimilaridadeStrategy similaridadeStrategy;
+    private final FiltroStrategy filtroStrategy;
     private final Map<String, Usuario> usuarios;
     private final ItemCatalog catalog;
 
-    public SistemaRecomendacao(SimilaridadeStrategy strategy, ItemCatalog catalog){
-        this.strategy = strategy;
+    public SistemaRecomendacao(SimilaridadeStrategy similaridadeStrategy, FiltroStrategy filtroStrategy, ItemCatalog catalog){
+        this.similaridadeStrategy = similaridadeStrategy;
+        this.filtroStrategy = filtroStrategy;
         this.catalog = catalog;
         usuarios = new HashMap<>();
     }
@@ -70,7 +73,7 @@ public class SistemaRecomendacao {
                 continue;
             }
 
-            double similaridade = strategy.calcular(base, outro);
+            double similaridade = similaridadeStrategy.calcular(base, outro);
 
             if(similaridade == 0){
                 continue;
@@ -89,11 +92,13 @@ public class SistemaRecomendacao {
             }
         }
 
-        return ranking.entrySet()
+        List<Item> recomendados = ranking.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .map(Map.Entry::getKey)
                 .toList();
+
+        return filtroStrategy.filtrar(base, recomendados);
 
     }
 
