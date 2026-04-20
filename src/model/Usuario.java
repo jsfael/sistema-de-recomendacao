@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class Usuario {
     }
 
     public Set<Item> getItensCurtidos() {
-        return itensCurtidos;
+        return Collections.unmodifiableSet(itensCurtidos);
     }
 
     public void curtirItem(Item item) {

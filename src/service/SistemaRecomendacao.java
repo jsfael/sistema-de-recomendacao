@@ -5,10 +5,7 @@ import model.Usuario;
 import strategy.filtro.FiltroStrategy;
 import strategy.similaridade.SimilaridadeStrategy;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SistemaRecomendacao {
 
@@ -18,6 +15,10 @@ public class SistemaRecomendacao {
     private final ItemCatalog catalog;
 
     public SistemaRecomendacao(SimilaridadeStrategy similaridadeStrategy, FiltroStrategy filtroStrategy, ItemCatalog catalog){
+        Objects.requireNonNull(similaridadeStrategy, "SimilaridadeStrategy não pode ser nula");
+        Objects.requireNonNull(filtroStrategy, "FiltroStrategy não pode ser nula");
+        Objects.requireNonNull(catalog, "ItemCatalog não pode ser nulo");
+
         this.similaridadeStrategy = similaridadeStrategy;
         this.filtroStrategy = filtroStrategy;
         this.catalog = catalog;
